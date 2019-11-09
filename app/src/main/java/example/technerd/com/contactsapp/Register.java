@@ -78,6 +78,7 @@ public class Register extends AppCompatActivity {
                         user.setProperty("name", phone);
 
                         showProgress(true);
+                        tvLoad.setText("Registering new user to our system");
 
                         Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
                             @Override
@@ -85,7 +86,7 @@ public class Register extends AppCompatActivity {
 
 
                                 showProgress(false);
-                                Toast.makeText(Register.this,"Registered",Toast.LENGTH_LONG).show();
+                            Toast.makeText(Register.this,"Registered",Toast.LENGTH_LONG).show();
                                 Register.this.finish();
 
                             }

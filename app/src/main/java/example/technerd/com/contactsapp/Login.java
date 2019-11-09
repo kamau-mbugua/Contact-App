@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+//import android.widget.AutoCompleteEditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.local.UserIdStorageFactory;
 
 public class Login extends AppCompatActivity {
     private View mProgressView;
@@ -42,6 +44,9 @@ public class Login extends AppCompatActivity {
         btnLogin=findViewById(R.id.btnLogin);
         btnRegister=findViewById(R.id.btnRegister);
         tvReset=findViewById(R.id.tvRest);
+
+        showProgress(true);
+        tvLoad.setText("Checking Credentials");
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +120,49 @@ public class Login extends AppCompatActivity {
                         }
                     });
                 }
+
+            }
+        });
+        tvLoad.setText("Checking credentials");
+
+        Backendless.UserService.isValidLogin(new AsyncCallback<Boolean>() {
+            @Override
+            public void handleResponse(Boolean response) {
+                if (response)
+                    {
+                        String userObectID = UserIdStorageFactory
+                                .instance().getStorage().get();
+                        tvLoad.setText("Log  ging you in");
+                        Backendless.Data.of(BackendlessUser.class).findById(userObectID, new AsyncCallback<BackendlessUser>() {
+                            @Override
+                            public void handleResponse(BackendlessUser response) {
+                                startActivity(new Intent(Login.this, MainActivity.class));
+                                Login.this.finish();
+
+                            }
+
+                            @Override
+                            public void handleFault(BackendlessFault fault) {
+                                Toast.makeText(Login.this, "Error"+fault.getMessage(),Toast.LENGTH_LONG).show();
+
+
+                            }
+                        });
+
+                    }
+                else
+                    {
+                        showProgress(false);
+
+                    }
+
+
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+                Toast.makeText(Login.this, "Error"+fault.getMessage(),Toast.LENGTH_LONG).show();
 
             }
         });
