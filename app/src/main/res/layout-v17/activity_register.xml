@@ -102,6 +102,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:ems="10"
+                android:clickable="true"
+                android:focusable="false"
                 android:gravity="center_horizontal"
                 android:hint="Date of Birth"
                 android:inputType="date" />
@@ -164,6 +166,27 @@
                 android:hint="Confirm Password"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/gender_radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/gender_textview"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/male_radio_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="male"
+                android:checked="true"
+                />
+            <RadioButton
+                android:id="@+id/female_radio_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "female"
+                />
+        </RadioGroup>
 
         <Button
             android:id="@+id/btnRegister"

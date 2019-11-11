@@ -1,7 +1,5 @@
 package example.technerd.com.contactsapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -11,15 +9,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-//import android.widget.AutoCompleteEditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.local.UserIdStorageFactory;
+
+//import android.widget.AutoCompleteEditText;
 
 public class Login extends AppCompatActivity {
     private View mProgressView;
@@ -65,6 +66,8 @@ public class Login extends AppCompatActivity {
                     Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
                         @Override
                         public void handleResponse(BackendlessUser response) {
+                            ApplicationClass.user=response;
+
                             Toast.makeText(Login.this,"Logged in Successfully",Toast.LENGTH_LONG).show();
 
                             startActivity(new Intent(Login.this,MainActivity.class));
@@ -108,6 +111,8 @@ public class Login extends AppCompatActivity {
                     Backendless.UserService.restorePassword(email, new AsyncCallback<Void>() {
                         @Override
                         public void handleResponse(Void response) {
+
+
                             Toast.makeText(Login.this,"Succesfull. Check Your Email box",Toast.LENGTH_LONG).show();
                                 showProgress(false);
                         }
@@ -132,10 +137,12 @@ public class Login extends AppCompatActivity {
                     {
                         String userObectID = UserIdStorageFactory
                                 .instance().getStorage().get();
-                        tvLoad.setText("Log  ging you in");
+                        tvLoad.setText("Logging you in,PLEASE WAIT!!");
                         Backendless.Data.of(BackendlessUser.class).findById(userObectID, new AsyncCallback<BackendlessUser>() {
                             @Override
                             public void handleResponse(BackendlessUser response) {
+                                ApplicationClass.user=response;
+
                                 startActivity(new Intent(Login.this, MainActivity.class));
                                 Login.this.finish();
 

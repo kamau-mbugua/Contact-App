@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Contacts App</string>
+    <string name="tvloadnewtxt">Creating new contact!!</string>
 </resources>
